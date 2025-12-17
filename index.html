@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>にゃんこサバイバー - Nyanko Survivor</title>
+    <meta name="description" content="飼い主が帰ってくる前にねずみを狩尽くせ！ヴァンパイアサバイバーライクのローグライトアクションゲーム">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.6;
+        }
+
+        .store-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .store-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: white;
+            color: #333;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .store-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .store-button.appstore {
+            background: #000;
+            color: white;
+        }
+
+        .store-button.playstore {
+            background: #01875f;
+            color: white;
+        }
+
+        .features {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .features h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .features ul {
+            list-style: none;
+            color: white;
+            text-align: left;
+        }
+
+        .features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .features li::before {
+            content: "🐱";
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        footer a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="title_logo.png" alt="にゃんこサバイバー" class="logo">
+
+        <img src="icon.png" alt="App Icon" class="icon">
+
+        <p class="description">
+            飼い主が帰ってくる前にねずみを狩尽くせ！<br>
+            ヴァンパイアサバイバーライクのローグライトアクションゲーム
+        </p>
+
+        <div class="store-buttons">
+            <a href="https://apps.apple.com/app/id6756531724" class="store-button appstore">
+                App Store
+            </a>
+            <a href="#" class="store-button playstore" style="opacity: 0.5; pointer-events: none;">
+                Google Play (準備中)
+            </a>
+        </div>
+
+        <div class="features">
+            <h2>ゲームの特徴</h2>
+            <ul>
+                <li>シンプル操作で爽快なアクション</li>
+                <li>多彩な武器とアップグレード</li>
+                <li>かわいい猫キャラクター</li>
+                <li>ステージごとに異なる挑戦</li>
+                <li>デイリーチャレンジで毎日楽しめる</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Nyanko Survivor</p>
+            <p><a href="https://nyanko-survivor.github.io/nyanko-survivor-privacy/">プライバシーポリシー</a></p>
+        </footer>
+    </div>
+</body>
+</html>
