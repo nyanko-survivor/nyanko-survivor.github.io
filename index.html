@@ -121,6 +121,9 @@
 
         .screenshots {
             margin-bottom: 30px;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            overflow: hidden;
         }
 
         .screenshots h2 {
@@ -132,19 +135,64 @@
         .screenshot-gallery {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
-            padding: 10px 0;
+            padding: 30px 0;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+        }
+
+        .screenshot-gallery::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshot-gallery::before,
+        .screenshot-gallery::after {
+            content: '';
+            flex-shrink: 0;
+            width: calc(50vw - 120px);
         }
 
         .screenshot-gallery img {
-            width: 200px;
+            width: 220px;
             height: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
             scroll-snap-align: center;
             flex-shrink: 0;
+            margin: 0 10px;
+            transition: transform 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0.5;
+            transform: scale(0.85);
+            cursor: pointer;
+        }
+
+        .screenshot-gallery img.active {
+            opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .carousel-indicators span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .carousel-indicators span.active {
+            background: white;
+            transform: scale(1.2);
         }
 
         footer {
@@ -219,13 +267,27 @@
             }
 
             .screenshot-gallery {
-                gap: 12px;
-                padding: 5px 0;
+                padding: 25px 0;
+            }
+
+            .screenshot-gallery::before,
+            .screenshot-gallery::after {
+                width: calc(50vw - 90px);
             }
 
             .screenshot-gallery img {
                 width: 160px;
-                border-radius: 10px;
+                border-radius: 12px;
+                margin: 0 8px;
+            }
+
+            .screenshot-gallery img.active {
+                transform: scale(1.15);
+            }
+
+            .carousel-indicators span {
+                width: 8px;
+                height: 8px;
             }
 
             footer {
@@ -273,8 +335,14 @@
                 font-size: 0.9rem;
             }
 
+            .screenshot-gallery::before,
+            .screenshot-gallery::after {
+                width: calc(50vw - 75px);
+            }
+
             .screenshot-gallery img {
                 width: 140px;
+                margin: 0 6px;
             }
         }
     </style>
@@ -294,19 +362,26 @@
             <a href="https://apps.apple.com/app/id6756531724" class="store-button appstore">
                 App Store
             </a>
-            <a href="#" class="store-button playstore" style="opacity: 0.5; pointer-events: none;">
-                Google Play (準備中)
+            <a href="https://play.google.com/store/apps/details?id=com.nyankosurvivor.game" class="store-button playstore">
+                Google Play
             </a>
         </div>
 
         <div class="screenshots">
             <h2>スクリーンショット</h2>
-            <div class="screenshot-gallery">
-                <img src="screenshot1.png" alt="スクリーンショット1">
+            <div class="screenshot-gallery" id="gallery">
+                <img src="screenshot1.png" alt="スクリーンショット1" class="active">
                 <img src="screenshot2.png" alt="スクリーンショット2">
                 <img src="screenshot3.png" alt="スクリーンショット3">
                 <img src="screenshot4.png" alt="スクリーンショット4">
                 <img src="screenshot5.png" alt="スクリーンショット5">
+            </div>
+            <div class="carousel-indicators" id="indicators">
+                <span class="active" data-index="0"></span>
+                <span data-index="1"></span>
+                <span data-index="2"></span>
+                <span data-index="3"></span>
+                <span data-index="4"></span>
             </div>
         </div>
 
@@ -326,5 +401,61 @@
             <p><a href="https://nyanko-survivor.github.io/nyanko-survivor-privacy/">プライバシーポリシー</a></p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gallery = document.getElementById('gallery');
+            const images = gallery.querySelectorAll('img');
+            const indicators = document.querySelectorAll('#indicators span');
+
+            function updateActiveImage() {
+                const galleryRect = gallery.getBoundingClientRect();
+                const centerX = galleryRect.left + galleryRect.width / 2;
+
+                let closestImage = null;
+                let closestDistance = Infinity;
+                let closestIndex = 0;
+
+                images.forEach((img, index) => {
+                    const imgRect = img.getBoundingClientRect();
+                    const imgCenterX = imgRect.left + imgRect.width / 2;
+                    const distance = Math.abs(centerX - imgCenterX);
+
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestImage = img;
+                        closestIndex = index;
+                    }
+                });
+
+                images.forEach(img => img.classList.remove('active'));
+                indicators.forEach(ind => ind.classList.remove('active'));
+
+                if (closestImage) {
+                    closestImage.classList.add('active');
+                    indicators[closestIndex].classList.add('active');
+                }
+            }
+
+            gallery.addEventListener('scroll', updateActiveImage);
+
+            // クリックで画像を中央にスクロール
+            images.forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    img.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                });
+            });
+
+            // インジケータークリックで該当画像へスクロール
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    images[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                });
+            });
+
+            // 初期表示
+            updateActiveImage();
+        });
+    </script>
 </body>
 </html>
